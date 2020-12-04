@@ -9,10 +9,10 @@
 
 #define WIDTH	8
 #define PREC	4
-#define STEP	0.01
+#define STEP	0.02
 #define EPSILON	0.0001
 
-#define DIR		"../output/"
+#define DIR		"output/"
 
 #define PRINT_STEPS	false
 #define PRINT_CHECK	false
@@ -20,6 +20,12 @@
 using namespace std;
 
 typedef double VALUE_TYPE;
+
+struct	point
+{
+	VALUE_TYPE	x;
+	VALUE_TYPE	y;
+};
 
 #include "interpolation/math_functions.h"
 #include "interpolation/interpolation.h"

@@ -7,4 +7,4 @@ add_executable(solving_interpolation_problems
         main.cpp main.h
         print_slae.cpp
         interpolation/interpolation_with_Lagrangian_polynomial.cpp
-        interpolation/math_functions.cpp interpolation/math_functions.h interpolation/interpolation.h)
+        interpolation/math_functions.cpp interpolation/math_functions.h interpolation/interpolation.h interpolation/mesh_creation.cpp interpolation/table_creation.cpp interpolation/file_creation.cpp interpolation/interpolation_with_natural_cubic_spline.cpp)
