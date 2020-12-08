@@ -4,7 +4,7 @@ void	create_files(vector<point> &mesh, int n, vector<point> &table,
 					 string &file_name, string method)
 {
 	/* таблица значений функции в узлах сетки */
-	ofstream	input_nodes(DIR + file_name + method + "_nodes.csv");
+	ofstream	input_nodes(DIR + file_name + method + "_mesh.csv");
 
 	for (int i = 0; i < n; i++)
 		input_nodes << mesh[i].x << ", " << mesh[i].y << endl;

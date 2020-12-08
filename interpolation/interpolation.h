@@ -1,7 +1,7 @@
 #ifndef INTERPOLATION_H
 #define INTERPOLATION_H
 
-#include "math_functions.h"
+#include "../sweep_method/sweep_method.h"
 
 vector<point>	create_table(VALUE_TYPE a, VALUE_TYPE b, VALUE_TYPE step);
 vector<point>	create_uniform_mesh(VALUE_TYPE (*function)(VALUE_TYPE), VALUE_TYPE a, VALUE_TYPE b, int n);

@@ -9,7 +9,7 @@
 
 #define WIDTH	8
 #define PREC	4
-#define STEP	0.02
+#define STEP	0.2
 #define EPSILON	0.0001
 
 #define DIR		"output/"
@@ -27,7 +27,11 @@ struct	point
 	VALUE_TYPE	y;
 };
 
-#include "interpolation/math_functions.h"
+VALUE_TYPE	test_1(VALUE_TYPE x);
+VALUE_TYPE	test_2(VALUE_TYPE x);
+VALUE_TYPE	test_3(VALUE_TYPE x);
+VALUE_TYPE	test_4(VALUE_TYPE x);
+
 #include "interpolation/interpolation.h"
 
 void	print_vector(vector<VALUE_TYPE> x);
