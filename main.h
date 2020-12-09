@@ -9,7 +9,7 @@
 
 #define WIDTH	8
 #define PREC	4
-#define STEP	0.2
+#define STEP	0.01
 #define EPSILON	0.0001
 
 #define DIR		"output/"

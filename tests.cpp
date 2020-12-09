@@ -6,7 +6,7 @@ VALUE_TYPE	test_1(VALUE_TYPE x)
 
 /* y = 1 / (1 + x^2) */
 VALUE_TYPE	test_2(VALUE_TYPE x)
-{ return (1 / (1 + pow(x, 2))); }
+{ return (1 / (1 + 25 * pow(x, 2))); }
 
 /* y = 1 / arctg(1 + 10x^2) */
 VALUE_TYPE	test_3(VALUE_TYPE x)

@@ -29,20 +29,23 @@ void	function_handler(VALUE_TYPE (*function)(VALUE_TYPE), VALUE_TYPE a, VALUE_TY
 	/* многочлен Лагранжа */
 	interpolation_with_Lagrangian_polynomial(uniform_mesh, interpolation_table, n);
 	create_files(uniform_mesh, n, interpolation_table, file_name, "_Lagrange");
+	VALUE_TYPE	eps = find_max_delta(function, interpolation_table);
 	f_eps << file_name << "_Lagrange, MAX EPSILON = " << find_max_delta(function, interpolation_table) << endl;
 
 	interpolation_with_Lagrangian_polynomial(Chebyshev_mesh, interpolation_table, n);
 	create_files(Chebyshev_mesh, n, interpolation_table, file_name, "_Lagrange[Chebyshev]");
+	VALUE_TYPE	eps1 = find_max_delta(function, interpolation_table);
 	f_eps << file_name << "_Lagrange[Chebyshev], MAX EPSILON = " << find_max_delta(function, interpolation_table) << endl;
 
 	/* сплайн */
 	interpolation_with_natural_cubic_spline(uniform_mesh, interpolation_table, n);
 	create_files(uniform_mesh, n, interpolation_table, file_name, "_splines");
+	VALUE_TYPE	eps2 = find_max_delta(function, interpolation_table);
 	f_eps << file_name << "_splines, MAX EPSILON = " << find_max_delta(function, interpolation_table) << endl;
-
 
 	interpolation_with_natural_cubic_spline(Chebyshev_mesh, interpolation_table, n);
 	create_files(Chebyshev_mesh, n, interpolation_table, file_name, "_splines[Chebyshev]");
+	VALUE_TYPE	eps3 = find_max_delta(function, interpolation_table);
 	f_eps << file_name << "_splines[Chebyshev], MAX EPSILON = " << find_max_delta(function, interpolation_table) << endl;
 
 	f_eps.close();
@@ -51,6 +54,10 @@ void	function_handler(VALUE_TYPE (*function)(VALUE_TYPE), VALUE_TYPE a, VALUE_TY
 int		main()
 {
 	int n[] = {3, 10, 50};
+
+	/* очищаем файл */
+	ofstream	f_eps("eps.txt");
+	f_eps.close();
 
 	/* test 1 */
 	for (int i : n)
