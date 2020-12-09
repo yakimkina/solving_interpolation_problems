@@ -7,28 +7,39 @@ tridiagonal_matrix	create_tridiagonal_slae(vector<point> &mesh, int n)
 	slae.b.push_back(2 * ((mesh[1].x - mesh[0].x) + (mesh[2].x - mesh[1].x)));
 	slae.c.push_back(mesh[2].x - mesh[1].x);
 	slae.d.push_back(3 * (((mesh[2].y - mesh[1].y) / (mesh[2].x - mesh[1].x)) -
-						  ((mesh[1].y - mesh[0].y) / (mesh[1].x - mesh[0].x))));
+		((mesh[1].y - mesh[0].y) / (mesh[1].x - mesh[0].x))));
 	for (int i = 3; i < n; i++)
 	{
 		slae.a.push_back(mesh[i - 1].x - mesh[i - 2].x);
 		slae.b.push_back(2 * ((mesh[i - 1].x - mesh[i - 2].x) + (mesh[i].x - mesh[i - 1].x)));
 		slae.c.push_back(mesh[i].x - mesh[i - 1].x);
 		slae.d.push_back(3 * (((mesh[i].y - mesh[i - 1].y) / (mesh[i].x - mesh[i - 1].x)) -
-							  ((mesh[i - 1].y - mesh[i - 2].y) / (mesh[i - 1].x - mesh[i - 2].x))));
+			((mesh[i - 1].y - mesh[i - 2].y) / (mesh[i - 1].x - mesh[i - 2].x))));
 	}
 	slae.a.push_back(mesh[n - 1].x - mesh[n - 2].x);
 	slae.b.push_back(2 * ((mesh[n - 1].x - mesh[n - 2].x) + (mesh[n].x - mesh[n - 1].x)));
 	slae.d.push_back(3 * (((mesh[n].y - mesh[n - 1].y) / (mesh[n].x - mesh[n - 1].x)) -
-						  ((mesh[n - 1].y - mesh[n - 2].y) / (mesh[n - 1].x - mesh[n - 2].x))));
+		((mesh[n - 1].y - mesh[n - 2].y) / (mesh[n - 1].x - mesh[n - 2].x))));
 
 	return slae;
 }
 
 vector<VALUE_TYPE>	create_c(vector<point> &mesh, int n)
 {
-	tridiagonal_matrix	slae = create_tridiagonal_slae(mesh, n - 1);
+	vector<VALUE_TYPE>	c;
 
-	vector<VALUE_TYPE>	c = sweep_method(slae, n - 2);
+	if (n == 3)
+	{
+		VALUE_TYPE	d = 3 * (((mesh[2].y - mesh[1].y) / (mesh[2].x - mesh[1].x)) -
+				((mesh[1].y - mesh[0].y) / (mesh[1].x - mesh[0].x)));
+		VALUE_TYPE	b = 2 * ((mesh[1].x - mesh[0].x) + (mesh[2].x - mesh[1].x));
+		c.push_back(d / b);
+	}
+	else
+	{
+		tridiagonal_matrix	slae = create_tridiagonal_slae(mesh, n - 1);
+		c = sweep_method(slae, n - 2);
+	}
 
 	c.insert(c.begin(), 0);
 	c.push_back(0);
@@ -55,7 +66,14 @@ void	interpolation_with_natural_cubic_spline(vector<point> &mesh, vector<point> 
 
 	calculate_coefficients(a, b, c, d, mesh, n);
 
+	/* граничный случай до: удаляем точки, для которых нет сплайнов*/
 	int	j = 0;
+	while (table[j].x < mesh[0].x)
+		j++;
+
+	table.erase(table.begin(), table.begin() + j);
+
+	j = 0;
 	for (int i = 1; i < n; i++)
 	{
 		for (; (table[j].x < mesh[i].x) && (j < table.size()); j++)
@@ -65,5 +83,8 @@ void	interpolation_with_natural_cubic_spline(vector<point> &mesh, vector<point> 
 					d[i - 1] * pow(delta, 3);
 		}
 	}
+
+	/* граничный случай после: удаляем точки в таблице, для которых нет сплайнов */
+	if (j < table.size()) table.erase(table.begin() + j, table.end());
 }
 
