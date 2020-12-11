@@ -7,7 +7,7 @@ tridiagonal_matrix	create_tridiagonal_slae(vector<point> &mesh, int n)
 	slae.b.push_back(2 * ((mesh[1].x - mesh[0].x) + (mesh[2].x - mesh[1].x)));
 	slae.c.push_back(mesh[2].x - mesh[1].x);
 	slae.d.push_back(3 * (((mesh[2].y - mesh[1].y) / (mesh[2].x - mesh[1].x)) -
-		((mesh[1].y - mesh[0].y) / (mesh[1].x - mesh[0].x))));
+		((mesh[1].y - mesh[0].y) / (mesh[1].x - mesh[0].x)))/* - (mesh[1].x - mesh[0].x)*/);
 	for (int i = 3; i < n; i++)
 	{
 		slae.a.push_back(mesh[i - 1].x - mesh[i - 2].x);
@@ -19,7 +19,7 @@ tridiagonal_matrix	create_tridiagonal_slae(vector<point> &mesh, int n)
 	slae.a.push_back(mesh[n - 1].x - mesh[n - 2].x);
 	slae.b.push_back(2 * ((mesh[n - 1].x - mesh[n - 2].x) + (mesh[n].x - mesh[n - 1].x)));
 	slae.d.push_back(3 * (((mesh[n].y - mesh[n - 1].y) / (mesh[n].x - mesh[n - 1].x)) -
-		((mesh[n - 1].y - mesh[n - 2].y) / (mesh[n - 1].x - mesh[n - 2].x))));
+		((mesh[n - 1].y - mesh[n - 2].y) / (mesh[n - 1].x - mesh[n - 2].x)))/* - (mesh[n - 1].x - mesh[n - 2].x)*/);
 
 	return slae;
 }
@@ -31,7 +31,8 @@ vector<VALUE_TYPE>	create_c(vector<point> &mesh, int n)
 	if (n == 3)
 	{
 		VALUE_TYPE	d = 3 * (((mesh[2].y - mesh[1].y) / (mesh[2].x - mesh[1].x)) -
-				((mesh[1].y - mesh[0].y) / (mesh[1].x - mesh[0].x)));
+				((mesh[1].y - mesh[0].y) / (mesh[1].x - mesh[0].x)))/* -
+				(mesh[1].x - mesh[0].x) - (mesh[2].x - mesh[1].x)*/;
 		VALUE_TYPE	b = 2 * ((mesh[1].x - mesh[0].x) + (mesh[2].x - mesh[1].x));
 		c.push_back(d / b);
 	}
@@ -41,8 +42,8 @@ vector<VALUE_TYPE>	create_c(vector<point> &mesh, int n)
 		c = sweep_method(slae, n - 2);
 	}
 
-	c.insert(c.begin(), 0);
-	c.push_back(0);
+	c.insert(c.begin(), 0/*1*/);
+	c.push_back(0/*1*/);
 
 	return c;
 }

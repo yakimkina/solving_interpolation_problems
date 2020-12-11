@@ -12,7 +12,7 @@
 #define STEP	0.01
 #define EPSILON	0.0001
 
-#define DIR		"output/"
+#define DIR		"output/"		
 
 #define PRINT_STEPS	false
 #define PRINT_CHECK	false
